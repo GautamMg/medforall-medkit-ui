@@ -1,0 +1,73 @@
+.root {
+    display: grid;
+    gap: 8px;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  }
+  
+  .label {
+    display: grid;
+    gap: 6px;
+    font-size: 12px;
+    color: #374151;
+  }
+  
+  .input {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    outline: none;
+  }
+  
+  .input:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.35);
+  }
+  
+  .panel {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+  }
+  
+  .state {
+    padding: 12px;
+    font-size: 13px;
+    color: #6b7280;
+  }
+  
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .item {
+    width: 100%;
+    text-align: left;
+    border: 0;
+    background: transparent;
+    padding: 10px 12px;
+    cursor: pointer;
+  }
+  
+  .item:hover {
+    background: #f9fafb;
+  }
+  
+  .itemActive {
+    background: #eff6ff;
+  }
+  
+  .itemName {
+    font-size: 14px;
+    color: #111827;
+  }
+  
+  .itemSub {
+    margin-top: 2px;
+    font-size: 12px;
+    color: #6b7280;
+  }
+  
