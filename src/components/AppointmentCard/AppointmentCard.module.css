@@ -1,0 +1,156 @@
+.card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px;
+    background: #fff;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .titleBlock {
+    min-width: 0;
+  }
+  
+  .nameRow {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  
+  .name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 650;
+  }
+  
+  .subRow {
+    margin-top: 4px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .time {
+    font-size: 13px;
+  }
+  
+  .meta {
+    color: #6b7280;
+    font-size: 13px;
+  }
+  
+  .rightHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .badge {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  
+  .badge_blue {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+  }
+  
+  .badge_green {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+    color: #065f46;
+  }
+  
+  .badge_red {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+  }
+  
+  .badge_amber {
+    background: #fffbeb;
+    border-color: #fde68a;
+    color: #92400e;
+  }
+  
+  .badge_gray {
+    background: #f3f4f6;
+    border-color: #e5e7eb;
+    color: #374151;
+  }
+  
+  .menuWrap {
+    position: relative;
+  }
+  
+  .menuButton {
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    padding: 6px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .menu {
+    position: absolute;
+    right: 0;
+    top: 36px;
+    min-width: 160px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    padding: 6px;
+    z-index: 10;
+  }
+  
+  .menuItem {
+    width: 100%;
+    text-align: left;
+    padding: 8px 10px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  .menuItem:hover {
+    background: #f3f4f6;
+  }
+  
+  .menuItemDanger {
+    composes: menuItem;
+    color: #b91c1c;
+  }
+  
+  .body {
+    margin-top: 12px;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 10px;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .label {
+    color: #6b7280;
+    font-size: 13px;
+  }
+  
+  .value {
+    font-size: 13px;
+  }
+  

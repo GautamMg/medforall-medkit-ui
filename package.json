@@ -1,0 +1,44 @@
+{
+    "name": "medforall-medkit-ui",
+    "version": "0.0.1",
+    "private": true,
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.mjs",
+            "require": "./dist/index.js"
+        }
+    },
+    "peerDependencies": {
+        "react": ">=18",
+        "react-dom": ">=18"
+    },
+    "scripts": {
+        "build": "tsup",
+        "storybook": "storybook dev -p 6006",
+        "build-storybook": "storybook build",
+        "test": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "lint": "eslint ."
+    },
+    "devDependencies": {
+        "@storybook/addon-a11y": "^8.6.15",
+        "@storybook/addon-essentials": "^8.6.15",
+        "@storybook/react-vite": "^8.6.15",
+        "@testing-library/jest-dom": "^6.9.1",
+        "@testing-library/react": "^16.3.2",
+        "@testing-library/user-event": "^14.6.1",
+        "axe-core": "^4.11.1",
+        "jsdom": "^27.0.1",
+        "storybook": "^8.6.15",
+        "tsup": "^8.5.1",
+        "vitest-axe": "^0.1.0"
+    }
+}
