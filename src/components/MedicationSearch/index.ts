@@ -1,2 +1,2 @@
 export { MedicationSearch } from "./MedicationSearch";
-export type { MedicationSearchProps, MedicationOption } from "./MedicationSearch.types";
+export type { Medication, MedicationSearchProps } from "./MedicationSearch.types";

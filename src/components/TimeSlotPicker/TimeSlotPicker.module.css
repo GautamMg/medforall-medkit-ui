@@ -1,69 +1,127 @@
 .card {
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 14px;
-    background: #fff;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-  }
-  
-  .title {
-    font-size: 14px;
-    font-weight: 650;
-  }
-  
-  .tz {
-    font-size: 12px;
-    color: #6b7280;
-  }
-  
-  .body {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .groupTitle {
-    font-size: 12px;
-    color: #6b7280;
-    margin-bottom: 6px;
-  }
-  
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap: 8px;
-  }
-  
-  .slot {
-    border: 1px solid #e5e7eb;
-    background: #fff;
-    border-radius: 10px;
-    padding: 10px 10px;
-    cursor: pointer;
-    font-size: 13px;
-    text-align: center;
-  }
-  
-  .slot:hover {
-    background: #f9fafb;
-  }
-  
-  .slotSelected {
-    border-color: #93c5fd;
-    background: #eff6ff;
-  }
-  
-  .slotDisabled {
-    color: #9ca3af;
-    background: #f9fafb;
-    cursor: not-allowed;
-  }
-  
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  font-family: inherit;
+  max-width: 480px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.dateTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tzLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.body {
+  padding: 12px 16px;
+  overflow-x: auto; /* responsive scroll on mobile */
+  -webkit-overflow-scrolling: touch;
+}
+
+.empty {
+  font-size: 14px;
+  color: #94a3b8;
+  text-align: center;
+  padding: 16px 0;
+  margin: 0;
+}
+
+.group {
+  margin-bottom: 12px;
+}
+
+.group:last-child { margin-bottom: 0; }
+
+.groupTitle {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  margin: 0 0 6px 0;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  padding: 6px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.slot:hover:not(:disabled) {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.slotSelected {
+  border-color: #3b82f6;
+  background: #dbeafe;
+  font-weight: 600;
+}
+
+.slotDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #f8fafc;
+}
+
+.slotTime {
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.capacity {
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 1px;
+}
+
+.check {
+  font-size: 12px;
+  color: #3b82f6;
+  margin-top: 2px;
+}
+
+.footer {
+  padding: 8px 16px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* Responsive */
+@media (max-width: 360px) {
+  .grid { flex-wrap: nowrap; }
+}

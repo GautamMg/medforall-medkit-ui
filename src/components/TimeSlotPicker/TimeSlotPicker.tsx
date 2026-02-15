@@ -1,62 +1,134 @@
 import React, { useMemo } from "react";
 import styles from "./TimeSlotPicker.module.css";
-import type { TimeSlotPickerProps, TimeSlot } from "./TimeSlotPicker.types";
+import type { TimeSlot, TimeSlotPickerProps } from "./TimeSlotPicker.types";
 
-function groupLabelFromHour(h: number) {
-  if (h < 12) return "Morning";
-  if (h < 17) return "Afternoon";
+function getHour(date: Date, timezone: string): number {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    hour12: false,
+    timeZone: timezone,
+  }).formatToParts(date);
+  const h = parts.find((p) => p.type === "hour");
+  return h ? parseInt(h.value, 10) : date.getHours();
+}
+
+function formatSlotTime(date: Date, timezone: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: timezone,
+  }).format(date);
+}
+
+function formatDateHeader(date: Date, timezone: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    timeZone: timezone,
+  }).format(date);
+}
+
+function getTimezoneAbbr(timezone: string): string {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZoneName: "short",
+    timeZone: timezone,
+  }).formatToParts(new Date());
+  return parts.find((p) => p.type === "timeZoneName")?.value ?? timezone;
+}
+
+type Group = "Morning" | "Afternoon" | "Evening";
+
+function groupLabel(hour: number): Group {
+  if (hour < 12) return "Morning";
+  if (hour < 17) return "Afternoon";
   return "Evening";
 }
 
-function hourFromISO(iso: string): number | null {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return null;
-  return d.getHours();
-}
+/**
+ * TimeSlotPicker renders available appointment slots grouped by time-of-day
+ * section (Morning / Afternoon / Evening). It respects timezone display,
+ * shows unavailable slots as disabled, and indicates remaining capacity
+ * for group appointments.
+ */
+export function TimeSlotPicker({
+  date,
+  availableSlots,
+  selectedSlot,
+  onSelect,
+  timezone,
+  slotDuration,
+  disabled = false,
+}: TimeSlotPickerProps) {
+  const dateHeader = useMemo(() => formatDateHeader(date, timezone), [date, timezone]);
+  const tzAbbr = useMemo(() => getTimezoneAbbr(timezone), [timezone]);
 
-export function TimeSlotPicker({ dateLabel, timezoneLabel, slots, value, onChange }: TimeSlotPickerProps) {
   const groups = useMemo(() => {
-    const map = new Map<string, TimeSlot[]>();
-    for (const s of slots) {
-      const hr = hourFromISO(s.startISO);
-      const g = hr == null ? "Slots" : groupLabelFromHour(hr);
-      const arr = map.get(g) ?? [];
-      arr.push(s);
-      map.set(g, arr);
+    const map = new Map<Group, TimeSlot[]>([
+      ["Morning", []],
+      ["Afternoon", []],
+      ["Evening", []],
+    ]);
+    for (const slot of availableSlots) {
+      const hour = getHour(slot.startTime, timezone);
+      map.get(groupLabel(hour))!.push(slot);
     }
-    return Array.from(map.entries());
-  }, [slots]);
+    return Array.from(map.entries()).filter(([, slots]) => slots.length > 0);
+  }, [availableSlots, timezone]);
 
   return (
-    <section className={styles.card} aria-label="Time slot picker">
+    <section className={styles.card} aria-label={`Time slot picker for ${dateHeader}`}>
       <header className={styles.header}>
-        <div className={styles.title}>{dateLabel}</div>
-        {timezoneLabel ? <div className={styles.tz}>{timezoneLabel}</div> : null}
+        <div className={styles.dateTitle}>{dateHeader}</div>
+        <div className={styles.tzLabel} aria-label={`Timezone: ${timezone}`}>{tzAbbr}</div>
       </header>
 
-      <div className={styles.body} role="radiogroup" aria-label="Available time slots">
-        {groups.map(([group, groupSlots]) => (
-          <div key={group} className={styles.group}>
-            <div className={styles.groupTitle}>{group}</div>
+      <div className={styles.body}>
+        {groups.length === 0 && (
+          <p className={styles.empty}>No available slots</p>
+        )}
 
-            <div className={styles.grid}>
-              {groupSlots.map((s) => {
-                const selected = value === s.id;
+        {groups.map(([group, slots]) => (
+          <div key={group} className={styles.group}>
+            <h4 className={styles.groupTitle}>{group}</h4>
+            <div
+              className={styles.grid}
+              role="radiogroup"
+              aria-label={`${group} slots`}
+            >
+              {slots.map((slot) => {
+                const isSelected = selectedSlot?.id === slot.id;
+                const isDisabled = disabled || !slot.available;
+                const timeLabel = formatSlotTime(slot.startTime, timezone);
+
                 return (
                   <button
-                    key={s.id}
+                    key={slot.id}
                     type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    aria-disabled={isDisabled}
+                    disabled={isDisabled}
                     className={[
                       styles.slot,
-                      selected ? styles.slotSelected : "",
-                      !s.available ? styles.slotDisabled : ""
-                    ].join(" ")}
-                    role="radio"
-                    aria-checked={selected}
-                    disabled={!s.available}
-                    onClick={() => onChange?.(s.id)}
+                      isSelected ? styles.slotSelected : "",
+                      isDisabled ? styles.slotDisabled : "",
+                    ].join(" ").trim()}
+                    onClick={() => !isDisabled && onSelect(slot)}
+                    title={
+                      !slot.available
+                        ? "Unavailable"
+                        : slot.remainingCapacity != null
+                        ? `${slot.remainingCapacity} spots left`
+                        : undefined
+                    }
                   >
-                    {s.label}
+                    <span className={styles.slotTime}>{timeLabel}</span>
+                    {slot.remainingCapacity != null && slot.available && (
+                      <span className={styles.capacity}>{slot.remainingCapacity} left</span>
+                    )}
+                    {isSelected && <span className={styles.check} aria-hidden="true">✓</span>}
                   </button>
                 );
               })}
@@ -64,6 +136,10 @@ export function TimeSlotPicker({ dateLabel, timezoneLabel, slots, value, onChang
           </div>
         ))}
       </div>
+
+      <footer className={styles.footer}>
+        <span className={styles.duration}>Slot duration: {slotDuration} min</span>
+      </footer>
     </section>
   );
 }

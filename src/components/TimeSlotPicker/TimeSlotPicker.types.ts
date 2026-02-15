@@ -1,16 +1,20 @@
 export interface TimeSlot {
-    id: string;
-    label: string;      // e.g. "10:30 AM"
-    startISO: string;   // ISO string
-    available: boolean;
-  }
-  
-  export interface TimeSlotPickerProps {
-    dateLabel: string;               // e.g. "Mon, Feb 12"
-    timezoneLabel?: string;          // e.g. "ET"
-    slots: TimeSlot[];
-  
-    value?: string;                  // selected slot id
-    onChange?: (slotId: string) => void;
-  }
-  
+  id: string;
+  startTime: Date;
+  endTime: Date;
+  available: boolean;
+  /** For group appointments — shows remaining capacity */
+  remainingCapacity?: number;
+}
+
+export interface TimeSlotPickerProps {
+  date: Date;
+  availableSlots: TimeSlot[];
+  selectedSlot?: TimeSlot;
+  onSelect: (slot: TimeSlot) => void;
+  /** IANA timezone string, e.g. "America/New_York" */
+  timezone: string;
+  /** Duration of each slot in minutes */
+  slotDuration: number;
+  disabled?: boolean;
+}
