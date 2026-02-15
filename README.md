@@ -4,7 +4,7 @@ This is my attempt in creating simple yet focused React component library built 
 
 This is a React component library built for healthcare workflows. It consists of five production-ready components, each purpose-built for the realities of clinical software — real-time vitals entry, medication lookups, appointment management, slot scheduling, and data-heavy patient tables.
 
-I have also added the some of the output screenshots of these components in ./Screenshots folder for reference.
+I have also attached the video walkthrough **[here](./Media/MedKit_Walkthrough.MOV)** (GitHub doesn’t support video media, so please download the video to view it) along with some of the output screenshots in ./Media folder for reference.
 
 ---
 
@@ -249,7 +249,7 @@ src/
   main.ts
   preview.ts
 
-Screenshots/
+Media/
 vitest.config.ts
 vitest.setup.ts
 tsup.config.ts
